@@ -1,6 +1,24 @@
+import { useRef } from "react";
 import { Link } from "react-router-dom";
 
 export default function LoginForm() {
+    const nameRef = useRef()
+    const emailRef = useRef()
+    const passwordRef = useRef()
+    const passwordConfirmationRef = useRef()
+    const handelSubmit = (e) => {
+        e.preventDefault()
+
+        const payload = {
+            name : nameRef.current.value,
+            email : emailRef.current.value,
+            password : passwordRef.current.value,
+            password_confirmation : passwordConfirmationRef.current.value
+        }
+
+        console.log(payload);
+        
+    }
     return (
       <>
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -16,7 +34,7 @@ export default function LoginForm() {
           </div>
   
           <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-            <form action="#" method="POST" className="space-y-6">
+            <form action="#" method="POST" onSubmit={handelSubmit} className="space-y-6">
               <div>
                 <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">
                   Email address
@@ -26,7 +44,7 @@ export default function LoginForm() {
                     id="email"
                     name="email"
                     type="email"
-                    required
+                    
                     autoComplete="email"
                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                   />
@@ -49,7 +67,7 @@ export default function LoginForm() {
                     id="password"
                     name="password"
                     type="password"
-                    required
+                    
                     autoComplete="current-password"
                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                   />
