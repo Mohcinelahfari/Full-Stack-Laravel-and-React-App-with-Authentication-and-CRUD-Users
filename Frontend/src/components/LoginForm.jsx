@@ -1,22 +1,38 @@
-import { useRef } from "react";
-import { Link } from "react-router-dom";
+import { useRef, useState } from "react";
+import { Link, Navigate } from "react-router-dom";
+import axiosClient from "../axios/axios";
+import { useStateContext } from "../context/ContextProvider";
 
 export default function LoginForm() {
+
+  const {setToken, setUser} = useStateContext()
     const nameRef = useRef()
     const emailRef = useRef()
     const passwordRef = useRef()
+    const [errors, setErrors] = useState({});
     const passwordConfirmationRef = useRef()
     const handelSubmit = (e) => {
         e.preventDefault()
-
+        setErrors({});
         const payload = {
-            name : nameRef.current.value,
             email : emailRef.current.value,
             password : passwordRef.current.value,
-            password_confirmation : passwordConfirmationRef.current.value
         }
 
-        console.log(payload);
+
+        axiosClient.post('/login', payload)
+        .then(({data}) => {
+          setUser(data.user)
+          setToken(data.token)
+          
+        })
+        .catch(({ response }) => {
+          if (response && response.status === 422) {
+              setErrors(response.data.errors); // Set validation errors from the API
+          } else if (response && response.status === 401) {
+              console.log(response.data.message);
+          }
+      });
         
     }
     return (
@@ -44,13 +60,14 @@ export default function LoginForm() {
                     id="email"
                     name="email"
                     type="email"
-                    
+                    ref={emailRef}
                     autoComplete="email"
                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                   />
                 </div>
               </div>
-  
+              {errors.email && <p className="text-red-500 text-sm">{errors.email[0]}</p>}
+
               <div>
                 <div className="flex items-center justify-between">
                   <label htmlFor="password" className="block text-sm/6 font-medium text-gray-900">
@@ -67,13 +84,14 @@ export default function LoginForm() {
                     id="password"
                     name="password"
                     type="password"
-                    
+                    ref={passwordRef}
                     autoComplete="current-password"
                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                   />
                 </div>
               </div>
-  
+              {errors.password && <p className="text-red-500 text-sm">{errors.password[0]}</p>}
+
               <div>
                 <button
                   type="submit"

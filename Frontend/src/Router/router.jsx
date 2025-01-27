@@ -10,7 +10,6 @@ import AdminDashboard from "../Layouts/Admin/AdminDashboard";
 
 const  router = createBrowserRouter([
     {
-        path :'/',
         element : <AdminLayout />,
         children : [
             {

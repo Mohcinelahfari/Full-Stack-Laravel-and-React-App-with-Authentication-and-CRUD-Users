@@ -1,6 +1,8 @@
 import React from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
 import { useStateContext } from '../../context/ContextProvider'
+import NavbarForAdmin from './NavbarForAdmin'
+import FooterForAdmin from './FooterForAdmin'
 
 function AdminLayout() {
     const {User, token} = useStateContext()
@@ -10,8 +12,9 @@ function AdminLayout() {
     }
    return (
     <>
-
+        <NavbarForAdmin />
         <Outlet />
+        <FooterForAdmin />
     </>
   )
 }

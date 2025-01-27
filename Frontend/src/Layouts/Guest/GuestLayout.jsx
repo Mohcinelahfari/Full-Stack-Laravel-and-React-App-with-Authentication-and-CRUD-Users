@@ -6,7 +6,7 @@ function GuestLayout() {
     const {User, token} = useStateContext()
 
     if(token){
-        return <Navigate to={'/'} />
+        return <Navigate to={'/dashboard'} />
     }
   return (
     <>
