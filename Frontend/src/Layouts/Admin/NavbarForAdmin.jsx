@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import axiosClient from "../../axios/axios";
 import { useStateContext } from "../../context/ContextProvider";
+import { Link } from "react-router-dom";
 
 const NavbarForAdmin = () => {
     const {setToken, setUser, User} = useStateContext()
@@ -33,6 +34,12 @@ const NavbarForAdmin = () => {
           </div>
 
           {/* Navigation Links */}
+          <Link
+        to={'/users'}
+        className="inline-block bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-600 transition"
+      >
+        User
+      </Link>
           <div className="hidden md:flex space-x-8">
             <a
               href="/home"

@@ -27,4 +27,5 @@ class UpdateUserRequest extends FormRequest
             'password' => 'required|min:3|string|confirmed'
         ];
     }
+    
 }
